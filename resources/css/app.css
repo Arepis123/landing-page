@@ -1,0 +1,273 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@source '../views';
+@source '../js';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/livewire/flux-pro/stubs/**/*.blade.php';
+@source '../../vendor/livewire/flux/stubs/**/*.blade.php';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: Inter, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-display: 'Instrument Serif', ui-serif, Georgia, serif;
+
+    --color-zinc-50: var(--color-neutral-50);
+    --color-zinc-100: var(--color-neutral-100);
+    --color-zinc-200: var(--color-neutral-200);
+    --color-zinc-300: var(--color-neutral-300);
+    --color-zinc-400: var(--color-neutral-400);
+    --color-zinc-500: var(--color-neutral-500);
+    --color-zinc-600: var(--color-neutral-600);
+    --color-zinc-700: var(--color-neutral-700);
+    --color-zinc-800: var(--color-neutral-800);
+    --color-zinc-900: var(--color-neutral-900);
+    --color-zinc-950: var(--color-neutral-950);
+
+    /* Brand: black and gold. Change the gold here to re-theme the whole site. */
+    --color-brand-50: #fcf9ec;
+    --color-brand-100: #f7efcc;
+    --color-brand-200: #efdd97;
+    --color-brand-300: #e6c75c;
+    --color-brand-400: #ddb236;
+    --color-brand-500: #d4a017;
+    --color-brand-600: #b27f10;
+    --color-brand-700: #8d5f10;
+    --color-brand-800: #744c14;
+    --color-brand-900: #623f16;
+    --color-brand-950: #392108;
+
+    --color-ink: #0a0a0a;
+    --color-charcoal: #171717;
+
+    --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+    --animate-shimmer-slide: shimmer-slide var(--speed, 3s) ease-in-out infinite alternate;
+    --animate-spin-around: spin-around calc(var(--speed, 3s) * 2) infinite linear;
+    --animate-border-beam: border-beam var(--beam-duration, 8s) infinite linear;
+    --animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
+    --animate-aurora: aurora 18s ease-in-out infinite alternate;
+    --animate-grid-fade: grid-fade 6s ease-in-out infinite;
+
+    @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(calc(-100% - var(--gap, 3rem))); }
+    }
+    @keyframes shimmer-slide {
+        to { transform: translate(calc(100cqw - 100%), 0); }
+    }
+    @keyframes spin-around {
+        0% { transform: translateZ(0) rotate(0); }
+        15%, 35% { transform: translateZ(0) rotate(90deg); }
+        65%, 85% { transform: translateZ(0) rotate(270deg); }
+        100% { transform: translateZ(0) rotate(360deg); }
+    }
+    @keyframes border-beam {
+        100% { offset-distance: 100%; }
+    }
+    @keyframes spotlight {
+        0% { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+        100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+    }
+    @keyframes aurora {
+        0% { transform: translate3d(-10%, -5%, 0) rotate(0deg); }
+        100% { transform: translate3d(10%, 5%, 0) rotate(8deg); }
+    }
+    @keyframes grid-fade {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 1; }
+    }
+}
+
+@layer base {
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+    ::selection { background: color-mix(in oklab, var(--color-brand-400) 35%, transparent); }
+}
+
+/* Flux accent: gold buttons with black text */
+@layer theme {
+    :root {
+        --color-accent: var(--color-brand-500);
+        --color-accent-content: var(--color-brand-700);
+        --color-accent-foreground: var(--color-neutral-950);
+    }
+    .dark {
+        --color-accent: var(--color-brand-400);
+        --color-accent-content: var(--color-brand-400);
+        --color-accent-foreground: var(--color-neutral-950);
+    }
+}
+
+/* ---------- Effects ported from 21st.dev community components ---------- */
+
+/* Grid + dot backgrounds (21st.dev "Grid Background" / Magic UI "Dot Pattern") */
+.bg-grid {
+    background-image:
+        linear-gradient(to right, color-mix(in oklab, currentColor 9%, transparent) 1px, transparent 1px),
+        linear-gradient(to bottom, color-mix(in oklab, currentColor 9%, transparent) 1px, transparent 1px);
+    background-size: 56px 56px;
+}
+.bg-dots {
+    background-image: radial-gradient(color-mix(in oklab, currentColor 18%, transparent) 1px, transparent 1px);
+    background-size: 22px 22px;
+}
+.mask-radial { mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 40%, transparent 100%); }
+.mask-fade-x { mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent); }
+
+/* Animated gradient text (21st.dev "Animated Gradient Text") */
+@utility text-gradient {
+    background: linear-gradient(110deg, var(--color-brand-300), #fff4cc 30%, var(--color-brand-400) 55%, var(--color-brand-300) 80%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: gradient-pan 8s linear infinite;
+}
+@keyframes gradient-pan { to { background-position: 200% center; } }
+
+/* Spotlight card: cursor-follow glow (21st.dev "Spotlight Card") */
+.spotlight-card { position: relative; isolation: isolate; }
+.spotlight-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity .4s;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--color-brand-400) 16%, transparent), transparent 45%);
+}
+.spotlight-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity .4s;
+    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), color-mix(in oklab, var(--color-brand-300) 70%, transparent), transparent 60%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+}
+.spotlight-card:hover::before, .spotlight-card:hover::after { opacity: 1; }
+
+/* Border beam (Magic UI "Border Beam", as listed on 21st.dev) */
+.border-beam {
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 1.5px solid transparent;
+    -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+    -webkit-mask-clip: padding-box, border-box;
+    -webkit-mask-composite: source-in;
+    mask: linear-gradient(transparent, transparent), linear-gradient(#000, #000);
+    mask-clip: padding-box, border-box;
+    mask-composite: intersect;
+}
+.border-beam::after {
+    content: '';
+    position: absolute;
+    aspect-ratio: 1;
+    width: var(--beam-size, 180px);
+    background: linear-gradient(to left, var(--color-brand-300), #fff4cc, transparent);
+    offset-anchor: 90% 50%;
+    offset-path: rect(0 auto auto 0 round var(--beam-size, 180px));
+    animation: var(--animate-border-beam);
+    animation-delay: var(--beam-delay, 0s);
+}
+
+/* Shimmer button (Magic UI "Shimmer Button") */
+.shimmer-btn {
+    --spread: 90deg;
+    --shimmer-color: #ffffff;
+    --speed: 3s;
+    --cut: 1.5px;
+    --bg: linear-gradient(135deg, var(--color-brand-300), var(--color-brand-500) 55%, var(--color-brand-600));
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: var(--bg);
+    transform: translateZ(0);
+    transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s;
+    box-shadow: 0 10px 40px -10px color-mix(in oklab, var(--color-brand-400) 70%, transparent), inset 0 -8px 10px #ffffff1f;
+}
+.shimmer-btn:hover { transform: translateY(-1px); box-shadow: 0 16px 50px -12px color-mix(in oklab, var(--color-brand-300) 80%, transparent), inset 0 -6px 10px #ffffff3f; }
+.shimmer-btn:active { transform: translateY(1px); }
+.shimmer-btn .shimmer-wrap { position: absolute; inset: 0; z-index: -2; overflow: visible; container-type: size; filter: blur(2px); }
+.shimmer-btn .shimmer-slide { position: absolute; inset: 0; height: 100cqh; aspect-ratio: 1; border-radius: 0; animation: var(--animate-shimmer-slide); mask: none; }
+.shimmer-btn .shimmer-spin { position: absolute; inset: -100%; width: auto; rotate: 0deg; animation: var(--animate-spin-around); background: conic-gradient(from calc(270deg - (var(--spread) * 0.5)), transparent 0, var(--shimmer-color) var(--spread), transparent var(--spread)); }
+.shimmer-btn .shimmer-bg { position: absolute; inset: var(--cut); z-index: -1; border-radius: inherit; background: var(--bg); }
+
+/* Scroll reveal (21st.dev "Blur Fade") */
+.reveal-ready [data-reveal] { opacity: 0; filter: blur(8px); transform: translateY(18px); transition: opacity .8s cubic-bezier(.2,.8,.2,1), transform .8s cubic-bezier(.2,.8,.2,1), filter .8s; transition-delay: var(--delay, 0ms); }
+.reveal-ready [data-reveal].is-visible { opacity: 1; filter: blur(0); transform: none; }
+
+/* Word rotate (21st.dev "Word Rotate") */
+.word-rotate { display: inline-grid; vertical-align: bottom; overflow: hidden; }
+.word-rotate > span { grid-area: 1 / 1; transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s, filter .6s; }
+
+/* Noise overlay for depth */
+.noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: .06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    .reveal-ready [data-reveal] { opacity: 1; filter: none; transform: none; }
+}
+
+/* Timeline: Flux's large size paints lines near-white; use the brand gold for completed steps */
+[data-flux-timeline-status=complete] > [data-flux-timeline-line-trailing] > div,
+[data-flux-timeline-status=complete] + [data-flux-timeline-item] > [data-flux-timeline-line-leading] > div {
+    background-color: var(--color-brand-500);
+}
+
+/* ---------- Dithered footer (21st.dev "Dithered Footer" by Ato Augustine, MIT, rebuilt in CSS) ---------- */
+.df-band {
+    --df-accent: var(--color-brand-600);
+    --df-dot: radial-gradient(circle, #000 0.9px, transparent 1.3px);
+    /* 360x240 seamless noise tile (resources/images/df-noise.png) so the dot grid reads as dithered */
+    --df-noise: url('../images/df-noise.png');
+    --df-fade: linear-gradient(to bottom, rgb(0 0 0 / .15), #000 75%);
+}
+:root:not(.dark) .df-band { --df-dot: radial-gradient(circle, #000 1.15px, transparent 1.6px); }
+.dark .df-band { --df-accent: var(--color-brand-400); }
+.df-field { position: absolute; inset: 0; transition: opacity .3s; }
+.df-field.df-lit {
+    -webkit-mask-image: radial-gradient(circle 200px at var(--df-x, 50%) var(--df-y, 50%), #000 35%, rgb(0 0 0 / .55) 100%);
+    mask-image: radial-gradient(circle 200px at var(--df-x, 50%) var(--df-y, 50%), #000 35%, rgb(0 0 0 / .55) 100%);
+}
+.df-dots {
+    position: absolute; top: 0; bottom: 0; left: 0;
+    width: calc(100% + 360px);
+    background: var(--df-accent);
+    -webkit-mask-image: var(--df-dot), var(--df-noise), var(--df-fade);
+    mask-image: var(--df-dot), var(--df-noise), var(--df-fade);
+    -webkit-mask-size: 4px 4px, 360px 240px, 100% 100%;
+    mask-size: 4px 4px, 360px 240px, 100% 100%;
+    -webkit-mask-repeat: repeat, repeat, no-repeat;
+    mask-repeat: repeat, repeat, no-repeat;
+    -webkit-mask-composite: source-in, source-in;
+    mask-composite: intersect;
+    animation: df-drift 40s linear infinite;
+}
+.df-field.df-lit .df-dots { filter: brightness(1.25) saturate(1.1); }
+.df-mark { font-size: clamp(2.5rem, 10.6vw, 13.5rem); }
+@keyframes df-drift { to { translate: -360px 0; } }
+@keyframes df-rise { from { translate: 0 35%; } }
+@supports (animation-timeline: view()) {
+    .df-band { view-timeline: --df-band; }
+    .df-mark { animation: df-rise linear both; animation-timeline: --df-band; animation-range: entry 20% entry 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .df-dots, .df-mark { animation: none !important; }
+}
