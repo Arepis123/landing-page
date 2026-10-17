@@ -3,7 +3,7 @@
 return [
     'name' => 'Enigmatic Solutions',
     'tagline' => 'Web Application Development & System Integration',
-    'domain' => env('SITE_DOMAIN', 'enigmaticsolution.online'),
+    'domain' => env('SITE_DOMAIN', 'enigmaticsolutions.online'),
     'email' => env('CONTACT_EMAIL', 'admin@enigmaticsolutions.online'),
     'phone' => '+60 13-262 1525',
     'whatsapp' => '60132621525',

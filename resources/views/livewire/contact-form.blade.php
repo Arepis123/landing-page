@@ -41,7 +41,7 @@
             @if (\App\Rules\Turnstile::enabled())
                 <div>
                     <div wire:ignore x-data="turnstile(@js(config('services.turnstile.site_key')))" @turnstile-reset.window="reset()">
-                        <div x-ref="box" class="min-h-[65px]"></div>
+                        <div x-ref="box"></div>
                     </div>
                     <flux:error name="turnstileToken" />
                 </div>

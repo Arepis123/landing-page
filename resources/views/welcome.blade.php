@@ -11,7 +11,7 @@
 
     $rotating = ['payroll', 'payments', 'claims', 'bookings', 'stock', 'helpdesk', 'paperwork'];
 
-    $stack = ['Laravel', 'PHP', 'Livewire', 'Flux UI', 'Tailwind CSS', 'MySQL / MariaDB', 'Billplz FPX', 'Brevo', 'DomPDF', 'Laravel Excel', 'Chart.js', 'Spatie Permission', 'Pest PHP', 'Schedule-X', 'Python', 'Tesseract OCR', 'OpenAI', 'Streamlit', 'pdfplumber'];
+    $stack = ['Laravel', 'PHP', 'Livewire', 'Flux UI', 'Tailwind CSS', 'MySQL / MariaDB', 'Billplz FPX', 'toyyibPay', 'Brevo', 'DomPDF', 'Laravel Excel', 'Chart.js', 'Spatie Permission', 'Pest PHP', 'Schedule-X', 'Python', 'Tesseract OCR', 'OpenAI', 'Streamlit', 'pdfplumber'];
 
     $stats = [
         ['value' => 8, 'suffix' => '', 'label' => 'Systems and automations running in production'],

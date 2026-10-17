@@ -83,6 +83,7 @@ document.addEventListener('alpine:init', () => {
                 this.widgetId = window.turnstile.render(this.$refs.box, {
                     sitekey: siteKey,
                     size: 'flexible',
+                    appearance: 'interaction-only',
                     theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light',
                     callback: (token) => { this.$wire.turnstileToken = token; },
                     'expired-callback': () => { this.$wire.turnstileToken = ''; },

@@ -1,6 +1,6 @@
 # Enigmatic Solutions landing page
 
-Marketing site for enigmaticsolution.online, built on Laravel 12, Livewire, Flux UI and Flux UI Pro, Tailwind CSS 4.
+Marketing site for enigmaticsolutions.online, built on Laravel 12, Livewire, Flux UI and Flux UI Pro, Tailwind CSS 4.
 Visual effects are Blade/Alpine/CSS ports of 21st.dev community components: Spotlight, Aurora background,
 Border Beam, Shimmer Button, Marquee, Number Ticker, Word Rotate, Blur Fade, Spotlight Card and Dithered Footer.
 
@@ -31,7 +31,7 @@ Enquiries are e-mailed to `CONTACT_EMAIL` (admin@enigmaticsolutions.online). Loc
 ```dotenv
 APP_ENV=production
 APP_DEBUG=false
-APP_URL=https://enigmaticsolution.online
+APP_URL=https://enigmaticsolutions.online
 MAIL_MAILER=smtp
 MAIL_HOST=smtp-relay.brevo.com
 MAIL_PORT=587
